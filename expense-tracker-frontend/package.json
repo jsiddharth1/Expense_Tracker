@@ -21,7 +21,6 @@
     "dev": "react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "xcopy /e /y build\\* ..\\expense-tracker\\src\\main\\resources\\static\\",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
