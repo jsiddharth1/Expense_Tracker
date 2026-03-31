@@ -1,0 +1,68 @@
+package com.example.expensetracker.service;
+
+import com.example.expensetracker.model.Expense;
+import com.example.expensetracker.repository.ExpenseRepository;
+import com.example.expensetracker.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+
+import org.jspecify.annotations.Nullable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ExpenseService {
+
+    private final UserRepository userRepository;
+
+    private  ExpenseRepository expenseRepository;
+
+    ExpenseService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }  // ✅ final keyword added
+
+    // Add new expense
+    public Expense addExpense(Expense expense) {
+        return expenseRepository.save(expense);
+    }
+
+    // Get expense by ID
+    public Expense getExpenseById(Long id) {
+        return expenseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Expense not found with id: " + id));
+    }
+
+    // Get all expenses
+    public List<Expense> getAllExpenses() {
+        return expenseRepository.findAll();
+    }
+
+    // Get expenses by user ID
+    public List<Expense> getExpensesByUserId(Long userId) {
+        return expenseRepository.findByUserId(userId);
+    }
+
+    // Update expense
+    public Expense updateExpense(Long id, Expense updatedExpense) {
+        Expense existing = getExpenseById(id);
+        existing.setTitle(updatedExpense.getTitle());
+        existing.setAmount(updatedExpense.getAmount());
+        existing.setCategory(updatedExpense.getCategory());
+        existing.setDescription(updatedExpense.getDescription());
+        existing.setDate(updatedExpense.getDate());
+        return expenseRepository.save(existing);
+    }
+
+    // Delete expense
+    public void deleteExpense(Long id) {
+        expenseRepository.deleteById(id);
+    }
+
+
+
+	public @Nullable Object getByCategory(Long userId, String category) {
+		// TODO Auto-generated method stub
+		return expenseRepository.getById(userId);
+	}
+}
