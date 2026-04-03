@@ -20,7 +20,7 @@ const Login = () => {
         setLoading(true);
         try {
             const endpoint = isLogin ? '/api/users/login' : '/api/users/register';
-            const res = await axios.post(`http://localhost:8081${endpoint}`, form);
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}${endpoint}`, form);
             login(res.data);
             navigate('/');
         } catch (err) {

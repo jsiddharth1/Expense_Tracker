@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8081/api';
+const BASE_URL = `${import.meta.env.VITE_API_URL}/api`;
 
 export const getAllExpenses   = (userId)            =>
     axios.get(`${BASE_URL}/expenses/user/${userId}`);
