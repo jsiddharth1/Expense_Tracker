@@ -4,7 +4,7 @@ import ExpenseList      from '../components/ExpenseList';
 import Summary          from '../components/Summary';
 import { getAllExpenses } from '../services/ExpenseService';
 import ToastContainer, { useToast } from '../components/Toast';
-import { FiChevronRight, FiGrid } from 'react-icons/fi';
+import { FiGrid } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
@@ -37,7 +37,7 @@ const Home = () => {
 
     return (
         <div className="app-container home-page">
-            <header className="home-header mb-3">
+            <header className="home-header">
                 <div className="flex-between">
                     <div>
                         <p className="tiny text-dim flex-center gap-05 mb-05"><FiGrid /> System Node v1.0.4</p>
@@ -58,28 +58,24 @@ const Home = () => {
                         clearEdit={clearEdit}
                         showToast={showToast}
                     />
-                    <Summary refreshKey={refreshKey} />
                 </div>
                 
                 <div className="main-column">
-                    <div className="audit-tools flex-between mb-1">
-                        <div className="flex-center gap-05 text-dim tiny">
-                            Home <FiChevronRight /> Records <FiChevronRight /> Financial Log
-                        </div>
-                    </div>
+
                     <ExpenseList
                         expenses={expenses}
                         onDelete={loadExpenses}
                         onEdit={handleEdit}
                         showToast={showToast}
                     />
+                    <Summary refreshKey={refreshKey} />
                 </div>
             </div>
 
             <ToastContainer toasts={toasts} removeToast={removeToast} />
 
             <style>{`
-                .home-page { padding-top: 2rem; }
+                .home-page { padding-top: 2rem; min-height: calc(100vh - 90px); display: flex; flex-direction: column; }
                 .mb-05 { margin-bottom: 0.5rem; }
                 .gap-05 { gap: 0.5rem; }
                 
@@ -89,7 +85,8 @@ const Home = () => {
                     display: grid;
                     grid-template-columns: 380px 1fr;
                     gap: 2.5rem;
-                    align-items: start;
+                    align-items: stretch;
+                    flex: 1;
                 }
 
                 .side-column {
@@ -101,7 +98,8 @@ const Home = () => {
                 .main-column {
                     display: flex;
                     flex-direction: column;
-                    min-width: 0; /* Fix flex layout overflow */
+                    min-width: 0;
+                    min-height: 100%;
                 }
 
                 .status-indicator {

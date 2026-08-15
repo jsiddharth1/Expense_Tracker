@@ -47,13 +47,18 @@ const Summary = ({ refreshKey }) => {
             <style>{`
                 .summary-card-modern {
                     width: 100%;
-                    max-width: 340px;
+                    max-width: none;
                     display: flex;
-                    flex-direction: column;
-                    gap: 1.5rem;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 2rem;
+                    padding: 1.25rem 2rem;
                     background: var(--bg-secondary);
                     border: 1px solid var(--border-subtle);
-                    align-self: flex-start;
+                    margin-top: 1.5rem;
+                    flex: 1;
+                    min-height: 0;
                 }
 
                 .summary-header {
@@ -72,6 +77,7 @@ const Summary = ({ refreshKey }) => {
                     justify-content: center;
                     color: var(--accent-primary);
                     font-size: 1.2rem;
+                    flex-shrink: 0;
                 }
 
                 .summary-title {
@@ -85,43 +91,43 @@ const Summary = ({ refreshKey }) => {
                 .flex-center { display: flex; align-items: center; }
 
                 .summary-box {
+                    display: flex;
+                    align-items: center;
+                    gap: 1.5rem;
                     background: rgba(255, 255, 255, 0.02);
-                    border-radius: 20px;
-                    padding: 1.5rem;
-                    text-align: center;
+                    border-radius: 16px;
+                    padding: 0.75rem 1.5rem;
                     border: 1px solid var(--border-subtle);
                 }
 
                 .summary-label {
-                    font-size: 0.75rem;
+                    font-size: 0.7rem;
                     color: var(--text-dim);
                     text-transform: uppercase;
                     letter-spacing: 0.08em;
-                    margin-bottom: 0.75rem;
+                    margin: 0;
                     font-weight: 600;
                 }
 
                 .summary-amount {
-                    font-size: 2.2rem;
+                    font-size: 1.6rem;
                     color: var(--text-main);
                     margin: 0;
                     font-weight: 800;
                     letter-spacing: -0.03em;
                     display: flex;
                     align-items: center;
-                    justify-content: center;
-                    gap: 0.4rem;
+                    gap: 0.3rem;
                 }
 
                 .currency {
                     color: var(--accent-primary);
-                    font-size: 1.5rem;
+                    font-size: 1.1rem;
                     opacity: 0.8;
                 }
 
                 .summary-badge {
                     display: inline-block;
-                    margin-top: 1rem;
                     padding: 0.3rem 0.8rem;
                     background: rgba(255, 255, 255, 0.05);
                     border-radius: 999px;
@@ -129,6 +135,19 @@ const Summary = ({ refreshKey }) => {
                     font-weight: 600;
                     color: var(--text-dim);
                     border: 1px solid var(--border-subtle);
+                    white-space: nowrap;
+                }
+
+                @media (max-width: 768px) {
+                    .summary-card-modern {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 1rem;
+                    }
+                    .summary-box {
+                        width: 100%;
+                        justify-content: space-between;
+                    }
                 }
             `}</style>
         </div>

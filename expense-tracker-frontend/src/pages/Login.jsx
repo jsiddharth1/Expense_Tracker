@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
-import { FiUser, FiLock, FiMail, FiArrowRight, FiShield } from 'react-icons/fi';
+import { FiUser, FiLock, FiMail, FiArrowRight, FiShield, FiCreditCard } from 'react-icons/fi';
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -35,7 +35,7 @@ const Login = () => {
         <div className="login-container">
             <div className="login-card-wrapper">
                 <div className="login-branding">
-                    <div className="brand-logo">💰</div>
+                    <FiCreditCard className="brand-logo" />
                     <h1 className="brand-name">ExpenseTracker</h1>
                     <p className="brand-tagline">Architectural Finance Optimization</p>
                 </div>
@@ -136,7 +136,7 @@ const Login = () => {
                 }
 
                 .login-branding { text-align: center; }
-                .brand-logo { font-size: 3rem; margin-bottom: 1rem; }
+                .brand-logo { font-size: 3rem; margin-bottom: 1rem; color: var(--accent-primary); }
                 .brand-name { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 0.5rem; color: white; }
                 .brand-tagline { color: var(--text-dim); font-size: 0.9rem; font-weight: 500; }
 

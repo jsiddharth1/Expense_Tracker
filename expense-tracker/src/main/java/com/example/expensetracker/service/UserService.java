@@ -45,6 +45,28 @@ public class UserService {
         return user;
     }
 
+    // Update user profile
+    public User updateUser(Long id, User updatedUser) {
+        User existingUser = getUserById(id);
+        if (updatedUser.getFullName() != null) {
+            existingUser.setFullName(updatedUser.getFullName());
+        }
+        if (updatedUser.getEmail() != null) {
+            existingUser.setEmail(updatedUser.getEmail());
+        }
+        if (updatedUser.getPhone() != null) {
+            existingUser.setPhone(updatedUser.getPhone());
+        }
+        return userRepository.save(existingUser);
+    }
+
+    // Update profile picture
+    public User updateProfilePicture(Long id, String base64Image) {
+        User user = getUserById(id);
+        user.setProfilePicture(base64Image);
+        return userRepository.save(user);
+    }
+
     // Get all users
     public List<User> getAllUsers() {
         return userRepository.findAll();
