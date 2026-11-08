@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { createExpense, updateExpense } from '../services/ExpenseService';
 import { FiPlus, FiSave, FiX, FiCheckCircle, FiInfo } from 'react-icons/fi';
-import { useAuth } from '../context/AuthContext';
+import { useExpenses } from '../context/ExpenseContext';
 
 const CATEGORIES = ['Food', 'Transport', 'Shopping', 'Bills', 'Health', 'Other'];
 
@@ -18,7 +17,7 @@ const ExpenseForm = ({ onExpenseAdded, expenseToEdit, clearEdit, showToast }) =>
     const emptyForm = { title: '', amount: '', category: '', date: '', description: '' };
     const [form, setForm]       = useState(emptyForm);
     const [saving, setSaving]   = useState(false);
-    const { user } = useAuth();
+    const { addExpense, updateExpense } = useExpenses();
 
     useEffect(() => {
         setForm(expenseToEdit
@@ -44,17 +43,17 @@ const ExpenseForm = ({ onExpenseAdded, expenseToEdit, clearEdit, showToast }) =>
         setSaving(true);
         try {
             if (expenseToEdit) {
-                await updateExpense(expenseToEdit.id, { ...form, id: expenseToEdit.id, user: { id: user.id } });
+                await updateExpense(expenseToEdit.id, { ...form, id: expenseToEdit.id });
                 showToast('Expense updated successfully!', 'success');
                 clearEdit();
             } else {
-                await createExpense({ ...form, user: { id: user.id } });
+                await addExpense({ ...form });
                 showToast('Expense added successfully!', 'success');
             }
             setForm(emptyForm);
-            onExpenseAdded();
+            if (onExpenseAdded) onExpenseAdded();
         } catch (error) {
-            showToast('Error: ' + (error.response?.data || error.message), 'error');
+            showToast('Error: ' + (error.response?.data?.message || error.response?.data || error.message), 'error');
         } finally {
             setSaving(false);
         }

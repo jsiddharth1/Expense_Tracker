@@ -5,9 +5,8 @@ import {
     ArcElement, Title, Tooltip, Legend,
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
-import { getAllExpenses, getMonthlyTotal } from '../services/ExpenseService';
-import { useAuth } from '../context/AuthContext';
-import { FiTrendingUp, FiPieChart, FiActivity, FiDollarSign } from 'react-icons/fi';
+import { useExpenses } from '../context/ExpenseContext';
+import { FiTrendingUp, FiPieChart, FiActivity, FiDollarSign, FiDatabase } from 'react-icons/fi';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
@@ -21,31 +20,27 @@ const CATEGORY_COLORS = {
 };
 
 const Dashboard = () => {
-    const [expenses, setExpenses]     = useState([]);
+    const { expenses, loading, isGuest, getMonthlyTotal } = useExpenses();
     const [monthTotal, setMonthTotal] = useState(0);
-    const [loading, setLoading]       = useState(true);
 
     const now        = new Date();
     const monthName  = now.toLocaleString('default', { month: 'long' });
     const year       = now.getFullYear();
 
-    const { user } = useAuth();
-
     useEffect(() => {
-        if (!user?.id) return;
-        Promise.all([
-            getAllExpenses(user.id),
-            getMonthlyTotal(user.id, now.getMonth() + 1, year),
-        ]).then(([expRes, totalRes]) => {
-            setExpenses(expRes.data);
-            setMonthTotal(totalRes.data || 0);
-        }).finally(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user]);
+        let mounted = true;
+        getMonthlyTotal(now.getMonth() + 1, year)
+            .then((total) => {
+                if (mounted) setMonthTotal(total || 0);
+            })
+            .catch(() => {});
+        return () => { mounted = false; };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [expenses, getMonthlyTotal, year]);
 
     const categoryTotals = expenses.reduce((acc, e) => {
         const cat = e.category || 'Other';
-        acc[cat] = (acc[cat] || 0) + (e.amount || 0);
+        acc[cat] = (acc[cat] || 0) + (Number(e.amount) || 0);
         return acc;
     }, {});
 
@@ -54,21 +49,21 @@ const Dashboard = () => {
     const bgColors   = categories.map(c => CATEGORY_COLORS[c] || '#999');
 
     const barData = {
-        labels: categories,
+        labels: categories.length > 0 ? categories : ['No Data'],
         datasets: [{
             label: 'Total Spent (₹)',
-            data: amounts,
-            backgroundColor: bgColors,
+            data: amounts.length > 0 ? amounts : [0],
+            backgroundColor: bgColors.length > 0 ? bgColors : ['#555'],
             borderRadius: 12,
             borderSkipped: false,
         }],
     };
 
     const doughnutData = {
-        labels: categories,
+        labels: categories.length > 0 ? categories : ['No Data'],
         datasets: [{
-            data: amounts,
-            backgroundColor: bgColors,
+            data: amounts.length > 0 ? amounts : [1],
+            backgroundColor: bgColors.length > 0 ? bgColors : ['#333'],
             borderColor: '#161815',
             borderWidth: 4,
             hoverOffset: 12,
@@ -95,7 +90,7 @@ const Dashboard = () => {
     };
 
     const recent = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
-    const allTotal = expenses.reduce((s, e) => s + (e.amount || 0), 0);
+    const allTotal = expenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
 
     if (loading) return (
         <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '1rem' }}>
@@ -113,7 +108,14 @@ const Dashboard = () => {
         <div className="app-container dashboard-page">
             <header className="dashboard-header flex-between">
                 <div>
-                    <p className="text-dim mb-1">Performance Optimization</p>
+                    <p className="text-dim mb-1 flex-center gap-05">
+                        Performance Optimization
+                        {isGuest && (
+                            <span className="guest-badge-inline">
+                                <FiDatabase /> Guest Mode — Demo Data
+                            </span>
+                        )}
+                    </p>
                     <h1 className="h1-modern">Finance Analytics</h1>
                 </div>
                 <div className="date-picker-pills">
@@ -126,14 +128,14 @@ const Dashboard = () => {
             <div className="grid-metrics mb-3">
                 <StatCard 
                     label="Monthly Spend" 
-                    value={`₹ ${monthTotal.toLocaleString()}`} 
+                    value={`₹ ${monthTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} 
                     icon={<FiTrendingUp />} 
                     trend="+12%" 
                     primary 
                 />
                 <StatCard 
                     label="All-Time Total" 
-                    value={`₹ ${allTotal.toLocaleString()}`} 
+                    value={`₹ ${allTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} 
                     icon={<FiDollarSign />} 
                     trend="-5%" 
                 />
@@ -169,7 +171,7 @@ const Dashboard = () => {
                     </div>
                     <div className="donut-footer mt-2 text-center">
                         <p className="tiny text-dim uppercase">Architecture Total</p>
-                        <p className="val-large text-accent">₹{allTotal.toLocaleString()}</p>
+                        <p className="val-large text-accent">₹{allTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                     </div>
                 </div>
 
@@ -177,7 +179,7 @@ const Dashboard = () => {
                 <div className="card table-card">
                     <div className="flex-between mb-2">
                         <h3 className="card-title">Recent Transactions</h3>
-                        <button className="btn-secondary btn-pill tiny">View All</button>
+                        <span className="tiny text-dim">Latest {recent.length} Entries</span>
                     </div>
                     {recent.length === 0 ? (
                         <p className="empty-text">Initialize tracking to see data split.</p>
@@ -195,13 +197,20 @@ const Dashboard = () => {
                                 <tbody>
                                     {recent.map(e => (
                                         <tr key={e.id}>
-                                            <td className="font-600">{e.title}</td>
+                                            <td className="font-600">
+                                                <div className="flex-center gap-05">
+                                                    <span>{e.title}</span>
+                                                    {e.isDemo && (
+                                                        <span className="demo-tag-tiny">Sample</span>
+                                                    )}
+                                                </div>
+                                            </td>
                                             <td>
                                                 <span className="cat-pill" style={{ background: CATEGORY_COLORS[e.category] || '#333' }}>
                                                     {e.category}
                                                 </span>
                                             </td>
-                                            <td className="text-accent font-700">₹{e.amount}</td>
+                                            <td className="text-accent font-700">₹{Number(e.amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                                             <td className="text-dim text-right tiny">{e.date}</td>
                                         </tr>
                                     ))}
@@ -222,6 +231,31 @@ const Dashboard = () => {
                 .font-700 { font-weight: 700; }
                 .text-right { text-align: right; }
                 .uppercase { text-transform: uppercase; }
+                .flex-center { display: inline-flex; align-items: center; }
+                .gap-05 { gap: 0.5rem; }
+
+                .guest-badge-inline {
+                    margin-left: 0.5rem;
+                    background: rgba(159, 220, 86, 0.1);
+                    color: var(--accent-primary);
+                    padding: 0.2rem 0.6rem;
+                    border-radius: 999px;
+                    font-size: 0.75rem;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.35rem;
+                    border: 1px solid rgba(159, 220, 86, 0.2);
+                }
+
+                .demo-tag-tiny {
+                    font-size: 0.65rem;
+                    text-transform: uppercase;
+                    background: rgba(255, 255, 255, 0.08);
+                    color: var(--text-dim);
+                    border: 1px solid var(--border-subtle);
+                    border-radius: 999px;
+                    padding: 0.1rem 0.4rem;
+                }
 
                 .h1-modern { font-size: 2.5rem; margin: 0; line-height: 1; margin-bottom: 0.5rem; }
 

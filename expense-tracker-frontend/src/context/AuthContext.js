@@ -15,13 +15,17 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (userData) => {
-        setUser(userData);
-        localStorage.setItem('expense_user', JSON.stringify(userData));
+        const safeUser = { ...userData };
+        delete safeUser.password;
+        setUser(safeUser);
+        localStorage.setItem('expense_user', JSON.stringify(safeUser));
     };
 
     const updateUser = (userData) => {
-        setUser(userData);
-        localStorage.setItem('expense_user', JSON.stringify(userData));
+        const safeUser = { ...userData };
+        delete safeUser.password;
+        setUser(safeUser);
+        localStorage.setItem('expense_user', JSON.stringify(safeUser));
     };
 
     const logout = () => {

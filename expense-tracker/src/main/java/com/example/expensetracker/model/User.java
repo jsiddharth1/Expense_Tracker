@@ -1,10 +1,14 @@
 package com.example.expensetracker.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.Index;
+import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 import java.util.List;
 
@@ -12,7 +16,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "users",
+    indexes = {@Index(name = "idx_user_email", columnList = "email", unique = true)}
+)
 public class User {
 
     @Id
@@ -22,13 +28,30 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = true)
     private String email;
 
     @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    private String fullName;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isGuest;
+
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private java.time.LocalDateTime createdAt;
+
+    @Column(name = "last_active_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private java.time.LocalDateTime lastActiveAt;
+
+    @Column
+    private String currency;
+
+    @Column(name = "monthly_budget")
+    private java.math.BigDecimal monthlyBudget;
+
+    @Column(name = "prompt_dismissals", columnDefinition = "JSON")
+    private String promptDismissals;
 
     private String phone;
 

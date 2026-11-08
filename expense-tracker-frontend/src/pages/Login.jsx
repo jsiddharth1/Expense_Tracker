@@ -65,7 +65,7 @@ const Login = () => {
                                 placeholder="Quantum Identity (Username)"
                                 value={form.username}
                                 onChange={handleChange}
-                                required
+                                required 
                             />
                         </div>
 
@@ -78,7 +78,7 @@ const Login = () => {
                                     placeholder="Communication Node (Email)"
                                     value={form.email}
                                     onChange={handleChange}
-                                    required
+                                    required 
                                 />
                             </div>
                         )}
@@ -91,7 +91,7 @@ const Login = () => {
                                 placeholder="Security Key (Password)"
                                 value={form.password}
                                 onChange={handleChange}
-                                required
+                                required 
                             />
                         </div>
 
@@ -109,6 +109,16 @@ const Login = () => {
                                 </>
                             )}
                         </button>
+
+                        <div className="guest-return-box">
+                            <button
+                                type="button"
+                                className="btn-pill btn-secondary full-width tiny"
+                                onClick={() => navigate('/')}
+                            >
+                                Continue as Guest →
+                            </button>
+                        </div>
                     </form>
                 </div>
 
@@ -212,6 +222,7 @@ const Login = () => {
 
                 .full-width { width: 100%; justify-content: center; padding: 1.1rem; border-radius: 14px; }
                 .mt-2 { margin-top: 1.5rem; }
+                .guest-return-box { margin-top: 0.5rem; }
 
                 .login-footer { text-align: center; }
             `}</style>

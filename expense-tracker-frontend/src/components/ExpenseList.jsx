@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { deleteExpense } from '../services/ExpenseService';
+import { useExpenses } from '../context/ExpenseContext';
 import { FiEdit3, FiTrash2, FiAlertCircle, FiCheck, FiX } from 'react-icons/fi';
 
 const CATEGORY_COLORS = {
@@ -13,15 +13,16 @@ const CATEGORY_COLORS = {
 
 const ExpenseList = ({ expenses, onDelete, onEdit, showToast }) => {
     const [confirmId, setConfirmId] = useState(null);
+    const { deleteExpense } = useExpenses();
 
     const handleDelete = async (id) => {
         try {
             await deleteExpense(id);
             setConfirmId(null);
-            onDelete();
+            if (onDelete) onDelete();
             showToast('Expense deleted from records.', 'success');
         } catch (error) {
-            showToast('Failed to delete: ' + (error.response?.data || error.message), 'error');
+            showToast('Failed to delete: ' + (error.response?.data?.message || error.response?.data || error.message), 'error');
         }
     };
 
@@ -61,7 +62,12 @@ const ExpenseList = ({ expenses, onDelete, onEdit, showToast }) => {
                                 <tr key={e.id} className="list-row">
                                     <td className="font-600">
                                         <div className="title-desc">
-                                            <p className="m-0">{e.title}</p>
+                                            <p className="m-0 flex-center gap-05">
+                                                {e.title}
+                                                {e.isDemo && (
+                                                    <span className="demo-tag" title="Sample demo record">Sample</span>
+                                                )}
+                                            </p>
                                             <p className="tiny text-dim m-0 font-400">{e.description || 'No notes attached'}</p>
                                         </div>
                                     </td>
@@ -147,6 +153,18 @@ const ExpenseList = ({ expenses, onDelete, onEdit, showToast }) => {
                 .icon-btn-confirm.yes:hover { background: var(--error); color: white; }
                 .icon-btn-confirm.no { color: var(--text-dim); }
                 .icon-btn-confirm.no:hover { background: rgba(255,255,255,0.1); color: white; }
+
+                .demo-tag {
+                    font-size: 0.65rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    background: rgba(255, 255, 255, 0.08);
+                    color: var(--text-dim);
+                    border: 1px solid var(--border-subtle);
+                    border-radius: 999px;
+                    padding: 0.15rem 0.5rem;
+                    font-weight: 600;
+                }
 
                 .empty-text {
                     text-align: center;

@@ -12,7 +12,9 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "expenses")
+@Table(name = "expenses", uniqueConstraints = {
+    @UniqueConstraint(name = "uk_user_client_id", columnNames = {"user_id", "client_id"})
+})
 public class Expense {
 
     @Id
@@ -24,6 +26,9 @@ public class Expense {
     private String category;
     private String description;
     private LocalDate date;
+
+    @Column(name = "client_id")
+    private String clientId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

@@ -1,32 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import ExpenseForm      from '../components/ExpenseForm';
-import ExpenseList      from '../components/ExpenseList';
-import Summary          from '../components/Summary';
-import { getAllExpenses } from '../services/ExpenseService';
+import React, { useState } from 'react';
+import ExpenseForm from '../components/ExpenseForm';
+import ExpenseList from '../components/ExpenseList';
+import Summary from '../components/Summary';
 import ToastContainer, { useToast } from '../components/Toast';
-import { FiGrid } from 'react-icons/fi';
-import { useAuth } from '../context/AuthContext';
+import { FiGrid, FiDatabase, FiCloud } from 'react-icons/fi';
+import { useExpenses } from '../context/ExpenseContext';
 
 const Home = () => {
-    const [expenses, setExpenses]           = useState([]);
+    const { expenses, isGuest, refreshExpenses } = useExpenses();
     const [expenseToEdit, setExpenseToEdit] = useState(null);
-    const [refreshKey, setRefreshKey]       = useState(0);
     const { toasts, showToast, removeToast } = useToast();
-    const { user } = useAuth();
-
-    const loadExpenses = async () => {
-        if (!user?.id) return;
-        try {
-            const res = await getAllExpenses(user.id);
-            setExpenses(res.data);
-            setRefreshKey(k => k + 1);
-        } catch (err) {
-            showToast('Operational Failure: Connection to ledger lost.', 'error');
-        }
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { loadExpenses(); }, [user]);
 
     const handleEdit = (expense) => {
         setExpenseToEdit(expense);
@@ -40,12 +23,24 @@ const Home = () => {
             <header className="home-header">
                 <div className="flex-between">
                     <div>
-                        <p className="tiny text-dim flex-center gap-05 mb-05"><FiGrid /> System Node v1.0.4</p>
+                        <p className="tiny text-dim flex-center gap-05 mb-05">
+                            <FiGrid /> System Node v1.0.4
+                        </p>
                         <h1 className="h1-modern">Asset Tracking</h1>
                     </div>
                     <div className="status-indicator">
-                        <span className="dot pulse"></span>
-                        <span className="text-dim tiny">Real-time sync</span>
+                        <span className={`dot ${isGuest ? 'dot-guest' : 'pulse'}`}></span>
+                        <span className="text-dim tiny flex-center gap-05">
+                            {isGuest ? (
+                                <>
+                                    <FiDatabase /> Guest Mode — Demo Data
+                                </>
+                            ) : (
+                                <>
+                                    <FiCloud /> Real-time Cloud Sync
+                                </>
+                            )}
+                        </span>
                     </div>
                 </div>
             </header>
@@ -53,22 +48,21 @@ const Home = () => {
             <div className="home-content-grid">
                 <div className="side-column">
                     <ExpenseForm
-                        onExpenseAdded={loadExpenses}
+                        onExpenseAdded={refreshExpenses}
                         expenseToEdit={expenseToEdit}
                         clearEdit={clearEdit}
                         showToast={showToast}
                     />
                 </div>
-                
-                <div className="main-column">
 
+                <div className="main-column">
                     <ExpenseList
                         expenses={expenses}
-                        onDelete={loadExpenses}
+                        onDelete={refreshExpenses}
                         onEdit={handleEdit}
                         showToast={showToast}
                     />
-                    <Summary refreshKey={refreshKey} />
+                    <Summary refreshKey={expenses.length} />
                 </div>
             </div>
 
@@ -113,6 +107,7 @@ const Home = () => {
                 }
 
                 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-primary); }
+                .dot-guest { background: #545FFF; }
                 .pulse { animation: pulse-anim 2s infinite; }
 
                 @keyframes pulse-anim {

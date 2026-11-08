@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getMonthlyTotal } from '../services/ExpenseService';
 import { FiTrendingUp, FiCalendar } from 'react-icons/fi';
-import { useAuth } from '../context/AuthContext';
+import { useExpenses } from '../context/ExpenseContext';
 
 const Summary = ({ refreshKey }) => {
     const [total, setTotal] = useState(0);
@@ -9,15 +8,18 @@ const Summary = ({ refreshKey }) => {
     const monthName = now.toLocaleString('default', { month: 'long' });
     const year = now.getFullYear();
 
-    const { user } = useAuth();
+    const { getMonthlyTotal, expenses } = useExpenses();
 
     useEffect(() => {
-        if (!user?.id) return;
-        getMonthlyTotal(user.id, now.getMonth() + 1, now.getFullYear())
-            .then(res => setTotal(res.data || 0))
+        let mounted = true;
+        getMonthlyTotal(now.getMonth() + 1, now.getFullYear())
+            .then(res => {
+                if (mounted) setTotal(res || 0);
+            })
             .catch(() => {});
+        return () => { mounted = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [refreshKey, user]);
+    }, [refreshKey, expenses, getMonthlyTotal]);
 
     return (
         <div className="card summary-card-modern">
