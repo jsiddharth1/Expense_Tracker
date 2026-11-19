@@ -58,7 +58,7 @@ const Navbar = () => {
                         {isAuthenticated ? (
                             <>
                                 <div className="user-info">
-                                    <span className="tiny text-dim">Authorized Node</span>
+                                    <span className="tiny text-dim">Signed In</span>
                                     <span className="user-name">{user?.fullName || user?.username}</span>
                                 </div>
                                 <div
@@ -77,7 +77,7 @@ const Navbar = () => {
                                         <FiUser />
                                     )}
                                 </div>
-                                <button className="icon-btn-nav logout" onClick={handleLogout} title="Deauthorize Session">
+                                <button className="icon-btn-nav logout" onClick={handleLogout} title="Log Out">
                                     <FiLogOut />
                                 </button>
                             </>

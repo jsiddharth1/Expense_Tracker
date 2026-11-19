@@ -79,10 +79,8 @@ export const getGuestExpenses = () => {
     const initialized = localStorage.getItem(DEMO_INITIALIZED_KEY);
 
     if (!raw && !initialized) {
-        const demoData = createBuiltInDemoExpenses();
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(demoData));
-        localStorage.setItem(DEMO_INITIALIZED_KEY, 'true');
-        return demoData;
+        // Demo data disabled: return empty list
+        return [];
     }
 
     try {

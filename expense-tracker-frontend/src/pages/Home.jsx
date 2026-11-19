@@ -24,9 +24,9 @@ const Home = () => {
                 <div className="flex-between">
                     <div>
                         <p className="tiny text-dim flex-center gap-05 mb-05">
-                            <FiGrid /> System Node v1.0.4
+                            <FiGrid /> Expense Tracker v1.0.4
                         </p>
-                        <h1 className="h1-modern">Asset Tracking</h1>
+                        <h1 className="h1-modern">Expense Tracking</h1>
                     </div>
                     <div className="status-indicator">
                         <span className={`dot ${isGuest ? 'dot-guest' : 'pulse'}`}></span>

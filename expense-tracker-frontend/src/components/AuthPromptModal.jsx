@@ -22,8 +22,8 @@ const AuthPromptModal = () => {
                         <FiCloud />
                     </div>
                     <div className="auth-prompt-title-box">
-                        <h2 className="auth-prompt-title">Unlock Cloud Ledger</h2>
-                        <p className="tiny text-dim">Permanent Synchronization & Backup</p>
+                        <h2 className="auth-prompt-title">Unlock Cloud Sync</h2>
+                        <p className="tiny text-dim">Permanent Backup & Synchronization</p>
                     </div>
                     <button
                         className="icon-btn-close"
@@ -37,7 +37,7 @@ const AuthPromptModal = () => {
                 <div className="auth-prompt-body">
                     <p className="auth-prompt-desc">
                         You are currently operating in <strong>Guest Mode</strong>. Your transactions are stored locally
-                        on this browser. Connect or initialize a free account to activate:
+                        on this browser. Sign in or create a free account to activate:
                     </p>
 
                     <div className="features-list">
@@ -53,7 +53,7 @@ const AuthPromptModal = () => {
                             <FiRefreshCw className="feature-icon" />
                             <div>
                                 <h4 className="feature-title">Multi-Device Synchronization</h4>
-                                <p className="tiny text-dim">Access your expense ledger across your phone, laptop, and tablet.</p>
+                                <p className="tiny text-dim">Access your expenses across your phone, laptop, and tablet.</p>
                             </div>
                         </div>
                     </div>

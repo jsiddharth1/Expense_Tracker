@@ -67,9 +67,9 @@ const ExpenseForm = ({ onExpenseAdded, expenseToEdit, clearEdit, showToast }) =>
                 </div>
                 <div>
                     <h2 className="form-title">
-                        {expenseToEdit ? 'Edit Transaction' : 'Record Expense'}
+                        {expenseToEdit ? 'Edit Expense' : 'Add Expense'}
                     </h2>
-                    <p className="tiny text-dim">Optimization engine active</p>
+                    <p className="tiny text-dim">Track and manage your expenses</p>
                 </div>
             </header>
 
@@ -78,7 +78,7 @@ const ExpenseForm = ({ onExpenseAdded, expenseToEdit, clearEdit, showToast }) =>
                     <label className="field-label"><FiInfo /> Title</label>
                     <input 
                         name="title"
-                        placeholder="e.g. Server Infrastructure"
+                        placeholder="e.g. Groceries, Rent, Utilities"
                         value={form.title} 
                         onChange={handleChange} 
                     />
@@ -120,7 +120,7 @@ const ExpenseForm = ({ onExpenseAdded, expenseToEdit, clearEdit, showToast }) =>
                     <label className="field-label">Note</label>
                     <textarea 
                         name="description"
-                        placeholder="Additional architectural notes..."
+                        placeholder="Additional notes or details (optional)..."
                         rows="2"
                         value={form.description} 
                         onChange={handleChange} 
@@ -137,7 +137,7 @@ const ExpenseForm = ({ onExpenseAdded, expenseToEdit, clearEdit, showToast }) =>
                     {saving ? 'Processing...' : (
                         <>
                             <FiCheckCircle />
-                            <span>{expenseToEdit ? 'Finalize Changes' : 'Initialize Record'}</span>
+                            <span>{expenseToEdit ? 'Save Changes' : 'Add Expense'}</span>
                         </>
                     )}
                 </button>

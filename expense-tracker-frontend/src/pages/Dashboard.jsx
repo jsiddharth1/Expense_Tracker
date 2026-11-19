@@ -109,14 +109,14 @@ const Dashboard = () => {
             <header className="dashboard-header flex-between">
                 <div>
                     <p className="text-dim mb-1 flex-center gap-05">
-                        Performance Optimization
+                        Financial Overview
                         {isGuest && (
                             <span className="guest-badge-inline">
                                 <FiDatabase /> Guest Mode — Demo Data
                             </span>
                         )}
                     </p>
-                    <h1 className="h1-modern">Finance Analytics</h1>
+                    <h1 className="h1-modern">Expense Analytics</h1>
                 </div>
                 <div className="date-picker-pills">
                     <span className="pill active">{monthName}</span>
@@ -140,7 +140,7 @@ const Dashboard = () => {
                     trend="-5%" 
                 />
                 <StatCard 
-                    label="Total Logs" 
+                    label="Total Expenses" 
                     value={expenses.length} 
                     icon={<FiActivity />} 
                     trend="+2.4%" 
@@ -156,8 +156,8 @@ const Dashboard = () => {
                 {/* Chart Section */}
                 <div className="card chart-main">
                     <div className="flex-between mb-2">
-                        <h3 className="card-title">Spending Architecture</h3>
-                        <p className="text-dim tiny">Live Visualization</p>
+                        <h3 className="card-title">Spending by Category</h3>
+                        <p className="text-dim tiny">Visual Breakdown</p>
                     </div>
                     <div className="chart-container">
                         <Bar data={barData} options={chartOptions} />
@@ -170,7 +170,7 @@ const Dashboard = () => {
                         <Doughnut data={doughnutData} options={chartOptions} />
                     </div>
                     <div className="donut-footer mt-2 text-center">
-                        <p className="tiny text-dim uppercase">Architecture Total</p>
+                        <p className="tiny text-dim uppercase">Total Spending</p>
                         <p className="val-large text-accent">₹{allTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                     </div>
                 </div>
@@ -182,13 +182,13 @@ const Dashboard = () => {
                         <span className="tiny text-dim">Latest {recent.length} Entries</span>
                     </div>
                     {recent.length === 0 ? (
-                        <p className="empty-text">Initialize tracking to see data split.</p>
+                        <p className="empty-text">Add expenses to see your recent transactions.</p>
                     ) : (
                         <div className="modern-table-wrapper">
                             <table className="modern-table">
                                 <thead>
                                     <tr>
-                                        <th>Project / Item</th>
+                                        <th>Expense / Item</th>
                                         <th>Category</th>
                                         <th>Amount</th>
                                         <th className="text-right">Date</th>

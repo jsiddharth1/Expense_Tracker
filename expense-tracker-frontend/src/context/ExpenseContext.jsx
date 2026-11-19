@@ -52,7 +52,7 @@ export const ExpenseProvider = ({ children }) => {
             }
         } catch (err) {
             console.error('Error loading authenticated expenses:', err);
-            setError('Failed to load expenses from cloud ledger.');
+            setError('Failed to load expenses from server.');
         } finally {
             setLoading(false);
         }

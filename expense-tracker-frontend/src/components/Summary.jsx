@@ -36,13 +36,13 @@ const Summary = ({ refreshKey }) => {
             </header>
 
             <div className="summary-box">
-                <p className="summary-label">Capital Outflow</p>
+                <p className="summary-label">Monthly Spending</p>
                 <h3 className="summary-amount">
                     <span className="currency">₹</span>
                     {total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </h3>
                 <div className="summary-badge">
-                    Operational Efficiency 94%
+                    Monthly Overview
                 </div>
             </div>
 

@@ -56,7 +56,7 @@ const ImportModal = () => {
                     </div>
                     <div className="modal-header-text">
                         <h2 className="modal-title">Import Guest Expenses</h2>
-                        <p className="tiny text-dim">Progressive Ledger Synchronization</p>
+                        <p className="tiny text-dim">Sync Guest Expenses to Your Account</p>
                     </div>
                     {!loading && (
                         <button className="icon-btn-close" onClick={skipImport} title="Close">
@@ -167,7 +167,7 @@ const ImportModal = () => {
                                     onClick={handleImport}
                                     disabled={loading}
                                 >
-                                    {loading ? 'Importing Ledger...' : `Import ${importableExpenses.length} Expense(s)`}
+                                    {loading ? 'Importing Expenses...' : `Import ${importableExpenses.length} Expense(s)`}
                                 </button>
 
                                 <div className="modal-secondary-actions">

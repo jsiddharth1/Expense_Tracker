@@ -131,7 +131,7 @@ const UserProfile = ({ isOpen, onClose }) => {
                 <div className="profile-panel-header">
                     <div>
                         <span className="profile-panel-label">User Profile</span>
-                        <h2 className="profile-panel-title">Identity Node</h2>
+                        <h2 className="profile-panel-title">Account Details</h2>
                     </div>
                     <button className="profile-close-btn" onClick={onClose} id="profile-close-btn">
                         <FiX />
@@ -250,7 +250,7 @@ const UserProfile = ({ isOpen, onClose }) => {
                                 <label className="profile-field-label">Username</label>
                                 <span className="profile-field-value">
                                     {profileData?.username}
-                                    <span className="profile-field-badge">Immutable</span>
+                                    <span className="profile-field-badge">Cannot be changed</span>
                                 </span>
                             </div>
                         </div>
@@ -309,7 +309,7 @@ const UserProfile = ({ isOpen, onClose }) => {
                 {/* Footer */}
                 <div className="profile-panel-footer">
                     <span className="tiny text-dim">User ID: {profileData?.id}</span>
-                    <span className="tiny text-dim">System Encrypted · AES-256</span>
+                    <span className="tiny text-dim">Secure & Encrypted</span>
                 </div>
             </div>
 

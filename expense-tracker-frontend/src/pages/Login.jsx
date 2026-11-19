@@ -37,7 +37,7 @@ const Login = () => {
                 <div className="login-branding">
                     <FiCreditCard className="brand-logo" />
                     <h1 className="brand-name">ExpenseTracker</h1>
-                    <p className="brand-tagline">Architectural Finance Optimization</p>
+                    <p className="brand-tagline">Personal Finance & Expense Tracking</p>
                 </div>
 
                 <div className="card login-card modern-shadow">
@@ -46,13 +46,13 @@ const Login = () => {
                             className={`tab-btn ${isLogin ? 'active' : ''}`} 
                             onClick={() => setIsLogin(true)}
                         >
-                            Node Login
+                            Log In
                         </button>
                         <button 
                             className={`tab-btn ${!isLogin ? 'active' : ''}`} 
                             onClick={() => setIsLogin(false)}
                         >
-                            Initialize User
+                            Sign Up
                         </button>
                     </div>
 
@@ -62,7 +62,7 @@ const Login = () => {
                             <input 
                                 name="username"
                                 type="text" 
-                                placeholder="Quantum Identity (Username)"
+                                placeholder="Username"
                                 value={form.username}
                                 onChange={handleChange}
                                 required 
@@ -75,7 +75,7 @@ const Login = () => {
                                 <input 
                                     name="email"
                                     type="email" 
-                                    placeholder="Communication Node (Email)"
+                                    placeholder="Email Address"
                                     value={form.email}
                                     onChange={handleChange}
                                     required 
@@ -88,7 +88,7 @@ const Login = () => {
                             <input 
                                 name="password"
                                 type="password" 
-                                placeholder="Security Key (Password)"
+                                placeholder="Password"
                                 value={form.password}
                                 onChange={handleChange}
                                 required 
@@ -104,7 +104,7 @@ const Login = () => {
                         >
                             {loading ? 'Processing...' : (
                                 <>
-                                    <span>{isLogin ? 'Authorize Node' : 'Register Identity'}</span>
+                                    <span>{isLogin ? 'Log In' : 'Sign Up'}</span>
                                     <FiArrowRight />
                                 </>
                             )}
@@ -123,7 +123,7 @@ const Login = () => {
                 </div>
 
                 <div className="login-footer">
-                    <p className="tiny text-dim">System Status: Protected by AES-256 Protocol</p>
+                    <p className="tiny text-dim">Protected by Secure Encryption</p>
                 </div>
             </div>
 

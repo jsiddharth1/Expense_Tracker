@@ -8,13 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import com.example.expensetracker.security.JwtAuthenticationFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
-
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
@@ -42,8 +36,8 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/guest", "/api/users/register", "/api/users/login").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/api/**").permitAll()
+                .anyRequest().permitAll()
             );
         return http.build();
     }

@@ -22,18 +22,18 @@ describe('App Guest Mode & Progressive Auth', () => {
             expect(badges.length).toBeGreaterThan(0);
         });
 
-        // Header shows Asset Tracking immediately
-        expect(screen.getByText('Asset Tracking')).toBeInTheDocument();
+        // Header shows Expense Tracking immediately
+        expect(screen.getByText('Expense Tracking')).toBeInTheDocument();
 
-        // Transaction Ledger is visible with demo data
-        expect(screen.getByText('Transaction Ledger')).toBeInTheDocument();
+        // Expense History is visible with demo data
+        expect(screen.getByText('Expense History')).toBeInTheDocument();
 
         // Header has Login and Sign Up available
         expect(screen.getByText('Log In')).toBeInTheDocument();
         expect(screen.getByText('Sign Up')).toBeInTheDocument();
 
         // Form is present and functional for guest
-        expect(screen.getByPlaceholderText(/e\.g\. Server Infrastructure/i)).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(/e\.g\. Groceries/i)).toBeInTheDocument();
     });
 
     test('shows sample demo records on initial load', async () => {

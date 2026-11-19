@@ -20,7 +20,7 @@ const ExpenseList = ({ expenses, onDelete, onEdit, showToast }) => {
             await deleteExpense(id);
             setConfirmId(null);
             if (onDelete) onDelete();
-            showToast('Expense deleted from records.', 'success');
+            showToast('Expense deleted successfully.', 'success');
         } catch (error) {
             showToast('Failed to delete: ' + (error.response?.data?.message || error.response?.data || error.message), 'error');
         }
@@ -30,11 +30,11 @@ const ExpenseList = ({ expenses, onDelete, onEdit, showToast }) => {
         <div className="card list-card-modern">
             <header className="list-header flex-between mb-2">
                 <div>
-                    <h2 className="card-title">Transaction Ledger</h2>
-                    <p className="tiny text-dim">Audit Trail Enabled</p>
+                    <h2 className="card-title">Expense History</h2>
+                    <p className="tiny text-dim">All recorded expenses</p>
                 </div>
                 <div className="list-stats text-dim tiny">
-                    Showing {expenses.length} records
+                    Showing {expenses.length} expenses
                 </div>
             </header>
 
@@ -54,7 +54,7 @@ const ExpenseList = ({ expenses, onDelete, onEdit, showToast }) => {
                             <tr>
                                 <td colSpan="5" className="empty-text">
                                     <FiAlertCircle style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }} />
-                                    <p>No transactions found in this workspace.</p>
+                                    <p>No expenses found in your account.</p>
                                 </td>
                             </tr>
                         ) : (
@@ -90,10 +90,10 @@ const ExpenseList = ({ expenses, onDelete, onEdit, showToast }) => {
                                             </div>
                                         ) : (
                                             <div className="row-actions">
-                                                <button className="icon-btn edit" onClick={() => onEdit(e)} title="Edit Record">
+                                                <button className="icon-btn edit" onClick={() => onEdit(e)} title="Edit Expense">
                                                     <FiEdit3 />
                                                 </button>
-                                                <button className="icon-btn delete" onClick={() => setConfirmId(e.id)} title="Delete Record">
+                                                <button className="icon-btn delete" onClick={() => setConfirmId(e.id)} title="Delete Expense">
                                                     <FiTrash2 />
                                                 </button>
                                             </div>
