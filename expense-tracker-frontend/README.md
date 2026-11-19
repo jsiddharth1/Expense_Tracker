@@ -53,3 +53,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/m
 This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
 
+
+## Deploying to Vercel
+
+To run the frontend on Vercel you must provide the backend URL as an environment variable:
+
+- **Variable name:** `REACT_APP_API_URL`
+- **Value:** `https://expense-tracker-qk4d.onrender.com`
+
+Add this variable in the Vercel dashboard under **Settings → Environment Variables** (set it for both *Preview* and *Production*). Vercel will inject the value at build time, and the app will use it via `process.env.REACT_APP_API_URL`.
+
+> Do **not** commit your `.env` file to the repository – it is already listed in `.gitignore`.
