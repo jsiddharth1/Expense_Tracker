@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import * as ExpenseApiService from '../services/ExpenseService';
 import * as GuestExpenseService from '../services/GuestExpenseService';
@@ -15,9 +15,8 @@ export const ExpenseProvider = ({ children }) => {
     const [importResult, setImportResult] = useState(null);
 
     // Compute whether importable guest expenses exist
-    const importableExpenses = useMemo(() => {
-        return GuestExpenseService.getImportableGuestExpenses();
-    }, [expenses]);
+    // Re-check whenever expenses change (new add/delete may affect localStorage)
+    const importableExpenses = GuestExpenseService.getImportableGuestExpenses();
 
     const hasImportableExpenses = importableExpenses.length > 0;
 

@@ -15,65 +15,6 @@ export const generateUUID = () => {
 const STORAGE_KEY = 'guest_expenses';
 const DEMO_INITIALIZED_KEY = 'guest_demo_initialized';
 
-const getRelativeDate = (daysAgo = 0) => {
-    const d = new Date();
-    d.setDate(d.getDate() - daysAgo);
-    return d.toISOString().split('T')[0];
-};
-
-const createBuiltInDemoExpenses = () => [
-    {
-        id: `demo-${generateUUID()}`,
-        clientId: `demo-${generateUUID()}`,
-        title: 'Weekly Groceries',
-        amount: 1450.0,
-        category: 'Food',
-        date: getRelativeDate(0),
-        description: 'Supermarket pantry restock & fresh produce',
-        isDemo: true,
-    },
-    {
-        id: `demo-${generateUUID()}`,
-        clientId: `demo-${generateUUID()}`,
-        title: 'Metro Transit Pass',
-        amount: 800.0,
-        category: 'Transport',
-        date: getRelativeDate(2),
-        description: 'Monthly transit card auto-recharge',
-        isDemo: true,
-    },
-    {
-        id: `demo-${generateUUID()}`,
-        clientId: `demo-${generateUUID()}`,
-        title: 'Electricity & Internet Bill',
-        amount: 2200.0,
-        category: 'Bills',
-        date: getRelativeDate(5),
-        description: 'High-speed broadband and power utility settlement',
-        isDemo: true,
-    },
-    {
-        id: `demo-${generateUUID()}`,
-        clientId: `demo-${generateUUID()}`,
-        title: 'Weekend Dinner & Cinema',
-        amount: 1150.0,
-        category: 'Shopping',
-        date: getRelativeDate(7),
-        description: 'Dining out and weekend cinema screening',
-        isDemo: true,
-    },
-    {
-        id: `demo-${generateUUID()}`,
-        clientId: `demo-${generateUUID()}`,
-        title: 'Annual Health Checkup',
-        amount: 750.0,
-        category: 'Health',
-        date: getRelativeDate(12),
-        description: 'Preventative clinic consultation and routine screening',
-        isDemo: true,
-    },
-];
-
 export const getGuestExpenses = () => {
     const raw = localStorage.getItem(STORAGE_KEY);
     const initialized = localStorage.getItem(DEMO_INITIALIZED_KEY);
